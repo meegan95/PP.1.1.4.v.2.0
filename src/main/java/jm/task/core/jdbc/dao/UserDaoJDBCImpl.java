@@ -70,22 +70,22 @@ public class UserDaoJDBCImpl implements UserDao {
         }
         System.out.println("User с ID " + id + " удален из базы данных.");
     }
-
     public List<User> getAllUsers() throws SQLException {
         List<User> usersArrayList = new ArrayList<>();
 
 
-        String sql = "SELECT ID, NAME, LASTNAME, AGE FROM USERS";
+        String sql = "SELECT * FROM USERS";
         System.out.println("--------------------------------------------");
         System.out.println("Содержание таблицы USERS:");
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
-                user.setId(resultSet.getLong("ID"));
-                user.setName(resultSet.getString("NAME"));
-                user.setLastName(resultSet.getString("LASTNAME"));
-                user.setAge(resultSet.getByte("AGE"));
+                user.setId(resultSet.getLong(1));
+                user.setName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setAge(resultSet.getByte(4));
+
                 System.out.println(user);
 
                 usersArrayList.add(user);
